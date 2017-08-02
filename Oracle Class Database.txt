@@ -1,0 +1,264 @@
+-- Jimmy Robinson
+-- Prof Rick M Smith - Oracle
+
+-- Problem 1
+
+-- a) It will have to be student ID and course ID since there are no columns with unique identifiers and a student can be under several
+-- courses but the course can only have a student registered to it once.
+
+-- Problem 2
+
+-- a) Students, Instructors, Database, Systems_Analysis, Fund_Acct, Intro_Mktg, Coll_Alge
+
+-- b) Students(Stu_ID, Stu_Name, Stu_Address, Stu_Major)
+--    Primary Key = Stu_ID
+
+--    Instructors(Instr_ID, Instr_Name, Instr_Offc, Crs_ID, Crs_Title)
+--    Primary Key Instr_ID
+--    Foreign Key = Crs_ID
+
+--    Database(Stu_ID, Stu_Crs_Grd, Instr_ID, Crs_ID)
+--    Primary Key = Crs_ID
+--    Foreign Key = Stu_ID, Inst_ID
+
+--    Systems_Analysis(Crs_ID, Stu_ID, Stu_Crs_Grd, Instr_ID, Current_Count)
+--    Primary Key = Crs_ID
+--    Foreign Key = Stu_ID, Inst_ID
+
+--    Fund_Acct(Crs_ID, Stu_ID, Stu_Crs_Grd, Instr_ID, Current_Count)
+--    Primary Key = Crs_ID
+--    Foreign Key = Stu_ID, Inst_ID
+
+--    Intro_Mktg(Crs_ID, Stu_ID, Stu_Crs_Grd, Instr_ID, Current_Count)
+--    Primary Key = Crs_ID
+--    Foreign Key = Stu_ID, Inst_ID
+
+--    Coll_Alge(Crs_ID, Stu_ID, Stu_Crs_Grd, Instr_ID, Current_Count)
+--    Primary Key = Crs_ID
+--    Foreign Key = Stu_ID, Inst_ID
+
+
+-- Problem 3
+-- Note to self, figure out a way to have new rows numbered 1 to 25 then check constraint.
+
+CREATE SEQUENCE Database_Count 
+START WITH 0
+INCREMENT BY 1
+MAX VALUE 25
+NOCYCLE;
+
+
+CREATE SEQUENCE Systems_Analysis_Count
+START WITH 0
+INCREMENT BY 1
+MAX VALUE 25
+NOCYCLE;
+
+
+CREATE SEQUENCE Fund_Acct_Count 
+START WITH 0
+INCREMENT BY 1
+MAX VALUE 25
+NOCYCLE;
+
+
+CREATE SEQUENCE Intro_Mktg_Count 
+START WITH 0
+INCREMENT BY 1
+MAX VALUE 25
+NOCYCLE;
+
+
+CREATE SEQUENCE Coll_Alge_Count
+START WITH 0
+INCREMENT BY 1
+MAX VALUE 25
+NOCYCLE;
+
+CREATE TABLE Students
+(Stu_ID NUMBER(8) UNIQUE,
+Stu_Name VARCHAR2(15) NOT NULL,
+Stu_Address VARCHAR2(30),
+Stu_Major CHAR(4),
+CONSTRAINT Students_Stu_ID_pk PRIMARY KEY(Stu_ID));
+
+COMMIT;
+
+CREATE TABLE Instructors
+(Instr_ID NUMBER(3) UNIQUE,
+Instr_Name VARCHAR2(20) NOT NULL,
+Instr_Offc VARCHAR2(4),
+Crs_Title VARCHAR2(15),
+CONSTRAINT Instructors_Instr_ID_pk PRIMARY KEY(Instr_ID));
+
+COMMIT;
+
+CREATE TABLE Database
+(Crs_ID VARCHAR2(7),
+Stu_ID NUMBER(8) UNIQUE,
+Stu_Crs_Grd CHAR(1),
+Instr_ID NUMBER(3),
+Current_Count,
+CONSTRAINT Database_Crs_ID_pk PRIMARY KEY(Crs_ID),
+CONSTRAINT Database_Stu_Crs_Grd_ck CHECK (Stu_Crs_Grd IN ('A','B','C','D','F')),
+CONSTRAINT Database_Stu_ID_fk FOREIGN KEY(Stu_ID) REFERENCES Students(Stu_ID),
+CONSTRAINT Database_Instr_ID_fk FOREIGN KEY REFERENCES Instructors(Instr_ID),
+CONSTRAINT Database_Current_Count_ck CHECK(Current_Count < 26));
+
+COMMIT;
+
+CREATE TABLE Systems_Analysis
+(Crs_ID VARCHAR2(7),
+Stu_ID NUMBER(8) UNIQUE,
+Stu_Crs_Grd CHAR(1),
+Instr_ID NUMBER(3),
+Current_Count,
+CONSTRAINT Systems_Analysis_Crs_ID_pk PRIMARY KEY(Crs_ID),
+CONSTRAINT Systems_Analysis_Stu_Crs_Grd_ck CHECK (Stu_Crs_Grd IN ('A','B','C','D','F')),
+CONSTRAINT Systems_Analysis_Stu_ID_fk FOREIGN KEY(Stu_ID) REFERENCES Students(Stu_ID),
+CONSTRAINT Systems_Analysis_Instr_ID_fk FOREIGN KEY(Instr_ID) REFERENCES Instructors(Instr_ID)
+CONSTRAINT Systems_Analysis_Current_Count_ck CHECK(Current_Count < 26));
+
+COMMIT;
+
+CREATE TABLE Fund_Acct
+(Crs_ID VARCHAR2(7),
+Stu_ID NUMBER(8) UNIQUE,
+Stu_Crs_Grd CHAR(1),
+Instr_ID NUMBER(3),
+Current_Count,
+CONSTRAINT Fund_Acct_Crs_ID_pk PRIMARY KEY(Crs_ID),
+CONSTRAINT Fund_Acct_Stu_Crs_Grd_ck CHECK (Stu_Crs_Grd IN ('A','B','C','D','F')),
+CONSTRAINT Fund_Acct_Stu_ID_fk FOREIGN KEY(Stu_ID) REFERENCES Students(Stu_ID),
+CONSTRAINT Fund_Acct_Instr_ID_fk FOREIGN KEY(Instr_ID) REFERENCES Instructors(Instr_ID)
+CONSTRAINT Fund_Acct_Current_Count_ck CHECK(Current_Count < 26));
+
+COMMIT;
+
+CREATE TABLE Intro_Mktg
+(Crs_ID VARCHAR2(7),
+Stu_ID NUMBER(8) UNIQUE,
+Stu_Crs_Grd CHAR(1),
+Instr_ID NUMBER(3),
+Current_Count,
+CONSTRAINT Intro_Mktg_Crs_ID_pk PRIMARY KEY(Crs_ID),
+CONSTRAINT Intro_Mktg_Stu_Crs_Grd_ck CHECK (Stu_Crs_Grd IN ('A','B','C','D','F')),
+CONSTRAINT Intro_Mktg_Stu_ID_fk FOREIGN KEY(Stu_ID) REFERENCES Students(Stu_ID),
+CONSTRAINT Intro_Mktg_Instr_ID_fk FOREIGN KEY(Instr_ID) REFERENCES Instructors(Instr_ID)
+CONSTRAINT Intro_Mktg_Current_Coun4_ck CHECK(Current_Count < 26));
+
+COMMIT;
+
+CREATE TABLE Coll_Alge
+(Crs_ID VARCHAR2(7),
+Stu_ID NUMBER(8) UNIQUE,
+Stu_Crs_Grd CHAR(1),
+Instr_ID NUMBER(3),
+Current_Count,
+CONSTRAINT Coll_Alge_Crs_ID_pk PRIMARY KEY(Crs_ID),
+CONSTRAINT Coll_Alge_Stu_Crs_Grd_ck CHECK (Stu_Crs_Grd IN ('A','B','C','D','F')),
+CONSTRAINT Coll_Alge_Stu_ID_fk FOREIGN KEY(Stu_ID) REFERENCES Students(Stu_ID),
+CONSTRAINT Coll_Alge_Instr_ID_fk FOREIGN KEY(Instr_ID) REFERENCES Instructors(Instr_ID)
+CONSTRAINT Coll_Alge_Current_Count_ck CHECK(Current_Count < 26));
+
+COMMIT;
+
+
+
+-- DESCRIBE Commands
+
+DESC Students;
+
+DESC Instructors;
+
+DESC Database;
+
+DESC Systems_Analysis;
+
+DESC Fund_Acct;
+
+DESC Intro_Mktg;
+
+DESC Coll_Alge;
+
+
+-- Problem 4
+
+INSERT INTO Students
+VALUES('268300458','Williams', '208 Brooks', 'CIS');
+
+INSERT INTO Students
+VALUES('543291073', 'Baker', '104 Philips', 'Acct');
+
+INSERT INTO Students
+VALUES('695381127', 'White', '208 Brooks', 'Math');
+
+COMMIT
+
+INSERT INTO Instructors
+VALUES('301', 'Codd', 'B104', 'CIS 350', 'Database');
+
+INSERT INTO Instructors
+VALUES('451', 'Parsons', 'B317', 'CIS 465', 'Systems Anal');
+
+INSERT INTO Instructors
+VALUES('255', 'Miller', 'H310', 'Acc 201', 'Fund of Acctg.');
+
+INSERT INTO Instructors
+VALUES('518', 'Bennet', 'B212', 'Mkt 300', 'Into to Mktg');
+
+INSERT INTO Instructors
+VALUES('622', 'Hilbert', 'M301', 'Mth 202', 'College algebra');
+
+COMMIT
+
+INSERT INTO Database
+VALUES('CIS 350', '268300458', 'A','301', Database_Count.NEXTVAL);
+
+INSERT INTO Systems_Analysis
+VALUES('CIS 465', '268300458', 'B', '451', Systems_Analysis_Count.NEXTVAL);
+
+INSERT INTO Database
+VALUES('CIS 350', '543291073', 'C', '301', Database_Count.CURRVAL);
+
+INSERT INTO Fund_Acct
+VALUES('Acc 201', '543291073', 'B', '255', Fund_Acct_Count.NEXTVAL);
+
+INSERT INTO Intro_Mktg
+VALUES('Mkt 300', '543291073', 'A', '518', Intro_Mktg_Count.NEXTVAL);
+
+INSERT INTO Coll_Alge
+VALUES('Mth 202', '695381127', 'B', '622', Coll_Alge_Count.NEXTVAL);
+
+INSERT INTO Fund_Acct
+VALUES('Acc 201', '695381127', 'A', '255', Fund_Acct_Count.CURRVAL);
+
+COMMIT
+
+
+-- Run SELECT FROM Commands to check contents of tables.
+
+
+SELECT Stu_ID, Stu_Name, Stu_Address, Stud_Major, Crs_ID
+FROM Students;
+
+SELECT Instr_ID, Instr_Name, Instr_Offc, Crs_ID, Crs_Title
+FROM Instructors;
+
+SELECT Stu_ID, Stu_Crs_Grd, Instr_ID, Crs_ID
+FROM Systems_Analysis;
+
+SELECT Stu_ID, Stu_Crs_Grd, Instr_ID, Crs_ID
+FROM Fund_Acct;
+
+SELECT Stu_ID, Stu_Crs_Grd, Instr_ID, Crs_ID
+FROM Intro_Mktg;
+
+SELECT Stu_ID, Stu_Crs_Grd, Instr_ID, Crs_ID
+FROM Coll_Alge;
+
+SELECT Stu_ID, Stu_Crs_Grd, Instr_ID, Crs_ID
+FROM Database;
+
+
+
