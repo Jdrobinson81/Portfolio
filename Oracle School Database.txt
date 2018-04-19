@@ -1,0 +1,94 @@
+-- Problem 1
+SELECT COMPANY, DESCRIPTION, MANU_NAME, QUANTITY, TOTAL_PRICE
+FROM STORES.CUSTOMER C, STORES.ORDERS O, STORES.ITEMS I, STORES.STOCK S, STORES.MANUFACT M
+WHERE C.CUSTOMER_NUM = O.CUSTOMER_NUM
+AND O.ORDER_NUM = I.ORDER_NUM
+AND I.STOCK_NUM = S.STOCK_NUM
+AND I.MANU_CODE = S.MANU_CODE
+AND S.MANU_CODE = M.MANU_CODE
+ORDER BY COMPANY, DESCRIPTION;
+
+-- Problem 2
+SELECT ORDER_NUM, SHIP_DATE, COMPANY, CUSTOMER_NUM, ORDER_DATE
+FROM STORES.CUSTOMER C, STORES.ORDERS S
+WHERE C.CUSTOMER_NUM = S.CUSTOMER_NUM
+AND SHIP_DATE BETWEEN(25-DEC-99, 05-JAN-00)
+ORDER BY COMPANY, ORDER_NUM;
+
+-- Problem 3 FIX LINE 3
+SELECT COUNT(S.CUSTOMER_NUM)
+FROM STORES.CUSTOMER S, STORES.ORDERS O
+WHERE S.CUSTOMER_NUM NOT != O.CUSTOMER_NUM;
+
+
+-- Problem 4
+-- No repeats
+SELECT DISTINCT(CUSTOMER_NUM), DESCRIPTION, STOCK_NUM
+FROM STORES.ORDERS, STORES.STOCK
+WHERE DESCRIPTION LIKE('tennis%', 'volleyball%')
+ORDER BY CUSTOMER_NUM, STOCK_NUM, DESCRIPTION;
+
+-- Problem 5
+CREATE TABLE Professor
+(Prof_ID NUMBER(3) Constraint p_k Professor Primary Key,
+Prof_Lname VARCHAR2(15) NOT NULL,
+Prof_Hiredate DATE,
+Prof_Sal NUMBER(8,2),
+Prof_Dept CHAR(6));
+
+CREATE TABLE Student
+(Stu_ID NUMBER(4) Constraint pk_Student Primary Key,
+Stu_Lname VARCHAR2(15) NOT NULL,
+Stu_Major CHAR(6),
+Stu_CredHrs NUMBER(4),
+Stu_GradePts NUMBER(5),
+Prof_ID NUMBER(3),
+CONSTRAINT fk_Student_Prof_ID FOREIGN KEY(Prof_ID)
+REFERENCES Professor);
+
+-- Problem 6
+-- pg 143
+INSERT INTO Professor (Prof_ID, Prof_Lname,Prof_Hiredate, Prof_Sal, Prof_Dept)
+vALUES ('123', 'Hilbert', '20-MAY-1992', '58000.00', 'MATH');
+
+INSERT INTO Professor (Prof_ID, Prof_Lname,Prof_Hiredate, Prof_Sal, Prof_Dept)
+VALUES ('243', 'Newell', '15-JUL-1997', '65500.00', 'CMPSCI');
+
+INSERT INTO Professor (Prof_ID, Prof_Lname,Prof_Hiredate, Prof_Sal, Prof_Dept)
+VALUES ('389', 'Lessing', '04-APR-1988', '40250.00', 'ENG');
+
+INSERT INTO Student (Stu_ID, Stu_Lname, Stu_Major, Stu_CredHrs, Stu_GradePts, Prof_ID)
+vALUES ('2001', 'Parker', 'CMPSCI', '52', '160', '243');
+
+INSERT INTO Student (Stu_ID, Stu_Lname, Stu_Major, Stu_CredHrs, Stu_GradePts, Prof_ID)
+VALUES ('2166', 'Smith', 'ENG', '30', '75', '389');
+
+INSERT INTO Student (Stu_ID, Stu_Lname, Stu_Major, Stu_CredHrs, Stu_GradePts, Prof_ID)
+VALUES ('3200', 'Garcia', 'MATH', '62', '248', '123');
+
+INSERT INTO Student (Stu_ID, Stu_Lname, Stu_Major, Stu_CredHrs, Stu_GradePts, Prof_ID)
+VALUES ('4520', 'Smith', 'CMPSCI', '45', '157', NULL);
+
+COMMIT
+
+-- Problem 7
+DELETE FROM Professor
+WHERE Prof_ID = '389';
+
+DELETE FROM Student
+WHERE Stu_ID = '2166';
+
+DELETE FROM Professor
+WHERE Prof_ID = '389';
+
+COMMIT
+
+-- Problem 8
+UPDATE Student
+SET Prof_ID = '243'
+WHERE Stu_ID = '4520';
+
+UPDATE Professor
+SET Prof_Sal = *1.1;
+
+COMMIT
