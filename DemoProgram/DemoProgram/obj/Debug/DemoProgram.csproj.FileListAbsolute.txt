@@ -1,0 +1,7 @@
+C:\Users\Jim\source\repos\DemoProgram\DemoProgram\obj\Debug\DemoProgram.csprojAssemblyReference.cache
+C:\Users\Jim\source\repos\DemoProgram\DemoProgram\obj\Debug\DemoProgram.csproj.CoreCompileInputs.cache
+C:\Users\Jim\source\repos\DemoProgram\DemoProgram\bin\Debug\DemoProgram.exe.config
+C:\Users\Jim\source\repos\DemoProgram\DemoProgram\bin\Debug\DemoProgram.exe
+C:\Users\Jim\source\repos\DemoProgram\DemoProgram\bin\Debug\DemoProgram.pdb
+C:\Users\Jim\source\repos\DemoProgram\DemoProgram\obj\Debug\DemoProgram.exe
+C:\Users\Jim\source\repos\DemoProgram\DemoProgram\obj\Debug\DemoProgram.pdb
