@@ -9,42 +9,45 @@ using System.Threading;
 
 namespace DemoProgram.Roll20
 {
+    //This is a dice rolling class
     public class RollEm
     {
         public bool check = true;
-
         public void KeepRollinRollinRollin()
         {
-            while(check==true)
+            while (check == true)
             {
+                //Get the number of sides on the die and the number of times to roll it
                 Console.WriteLine("How many sides are on the die?\n");
                 int Die = Convert.ToInt32(Console.ReadLine());
 
                 Console.WriteLine("How many times do you wish to roll?\n");
                 int Roll = Convert.ToInt32(Console.ReadLine());
 
-                Random rand = new Random.Random();
+                //Creat a new instance of the random generator
+                Random rand = new Random();
 
-                for(int c=0; c<Roll; c++)
+                //Loop through the rolls
+                for (int j = 0; j < Roll; j++)
                 {
-                    int convertIt = Convert.ToInt32(Console.WriteLine(rand.Next(1, Die)));
+                    //create a next statement to create new results
+                    int ShowIt = rand.Next(1, Die);
+                    Console.WriteLine(ShowIt + " ");
+                    //Put the thread to sleep to avoid generating the same results continuously
                     Thread.Sleep(200);
                 }
-                Console.WriteLine("Do you wish to roll again? Y or N\n");
-                string again = Console.ReadLine();
-                if(again == n)
+                //Ask if they need another roll. I will later add options to return to menu and error checking
+                Console.WriteLine("Another Roll? (y/n)\n");
+                string yesno = Console.ReadLine();
+                if (yesno == "n")
                 {
-                    check=false;
-                }
-                if(again == y)
-                {
-                    check=true;
-                }
-                else
-                {
-                    Console.WriteLine("Please choose either y or n\n");
+                    check = false;
                 }
             }
+
+            Console.WriteLine("Press any key to exit\n");
+            Console.ReadLine();
+
         }
     }
 }
